@@ -1,34 +1,27 @@
-pub struct u256 {
-    arr128:[u128; 2],
-    binary_string: String,
-    hex_string: String,
-}
+use byteorder::{ByteOrder, LittleEndian};
+    pub struct U256 {
+        pub buf:[u128; 2],
+    }
 
-impl u256 {
-    pub fn new(arr: &mut [u8;32]) -> Self {
-        let mut left_sum:u128 = 0;
-        let mut right_sum:u128 = 0;
-        for i in 0..16 {
-            left_sum += arr[i] as u128;
+    impl U256 {
+        pub fn new(arr: [u8;32]) -> Self {
+            let mut side = &arr[0..16];
+            let mut u128_buf = [0u128; 2];
+            u128_buf[0] = LittleEndian::read_u128(side);
+            side = &arr[16..32];
+            u128_buf[1] = LittleEndian::read_u128(side);
+            Self {buf: u128_buf}
         }
-        for i in 16..32 {
-            right_sum += arr[i] as u128;
+
+        pub fn get_value(&self) -> &[u128; 2] {
+            &self.buf
         }
-        let new_arr:[u128;2] = [left_sum, right_sum];
-        let binary_string = [format!("{:b}", left_sum), format!("{:b}", right_sum)].join("");
-        let hex_string = [format!("{:X}", left_sum), format!("{:X}", right_sum)].join("");
-        Self {arr128: new_arr, binary_string, hex_string}
-    }
 
-    pub fn get_value(&self) -> &[u128; 2] {
-        &self.arr128
-    }
+        pub fn get_binary(&self) -> String {
+            [format!("{:128b}", self.buf[0]), format!("{:128b}", self.buf[1])].join("")
+        }
 
-    pub fn get_binary(&self) -> &String {
-        &self.binary_string
+        pub fn get_hex(&self) -> String {
+            [format!("{:32X}", self.buf[0]), format!("{:32X}", self.buf[1])].join("")
+        }
     }
-
-    pub fn get_hex(&self) -> &String {
-        &self.hex_string
-    }
-}

@@ -54,8 +54,8 @@ mod tests {
         let private_key = keys::PrivateKey::new().unwrap();
         let key = private_key.key;
         let zero_array = [0u128;2];
-        assert_ne!(key.arr128, zero_array);
-        assert_eq!(key.arr128.len(), 2);
+        assert_ne!(key.buf, zero_array);
+        assert_eq!(key.buf.len(), 2);
         assert_eq!(key.get_hex().chars().count(), 64);
         assert_eq!(key.get_binary().chars().count(), 256);
     }
