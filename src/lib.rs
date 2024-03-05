@@ -1,3 +1,4 @@
+pub mod u256;
 struct Block {
     block_size: u32,
     block_header: BlockHeader,
