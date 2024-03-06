@@ -1,4 +1,3 @@
-pub mod u256;
 pub mod keys;
 // struct Block {
 //     block_size: u32,
@@ -20,5 +19,5 @@ pub mod keys;
 // }
 
 // impl BlockHeader {
-    
+
 // }

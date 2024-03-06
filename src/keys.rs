@@ -1,9 +1,9 @@
 pub mod keys {
-    use crate::u256::U256;
-    use rand_core::Error;
-    use rand_core::{OsRng, RngCore};
+    use primitive_types::U256;
+    use rand_core::{Error, OsRng, RngCore};
     use std::{thread, time};
 
+    //TODO: Use polymorphism/traits on the keys for greater readability. Low priority.
     pub struct PrivateKey {
         pub key: U256,
     }
@@ -26,10 +26,9 @@ pub mod keys {
                     _ => (),
                 }
             }
-            println!("{:?}", array);
-            let key = U256::new(array); //create private key value, which is a 256 bit number.
-            println!("New private key(binary): {:?}", key.get_binary()); //print private key
-            println!("New private key(hexadecimal): {:?}", key.get_hex()); //print private key
+            let key = U256::from(array); //create private key value, which is a 256 bit number.
+            // println!("New private key(binary): {:?}", key.get_binary()); //print private key
+            // println!("New private key(hexadecimal): {:?}", key.get_hex()); //print private key
             Ok(PrivateKey { key }) // transfer ownership out.
         }
     }
@@ -56,7 +55,7 @@ mod tests {
     fn private_key_valid() {
         let private_key = keys::PrivateKey::new().unwrap();
         let key = private_key.key;
-        let zero_array = [0u128; 2];
-        assert_ne!(key.buf, zero_array);
+        let zero_array: [u64;4] = [0u64; 4];
+        assert_ne!(key.0, zero_array);
     }
 }
