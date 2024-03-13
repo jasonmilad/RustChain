@@ -20,15 +20,11 @@ pub mod keys {
 
             //make sure that the private key is greater than 0
             while array == zero_array {
-                match OsRng.try_fill_bytes(&mut array) {
-                    // safe fill array with random
-                    Err(e) => return Err(e),
-                    _ => (),
-                }
+                OsRng.try_fill_bytes(&mut array)?;
             }
             let key = U256::from(array); //create private key value, which is a 256 bit number.
-            // println!("New private key(binary): {:?}", key.get_binary()); //print private key
-            // println!("New private key(hexadecimal): {:?}", key.get_hex()); //print private key
+                                         // println!("New private key(binary): {:?}", key.get_binary()); //print private key
+                                         // println!("New private key(hexadecimal): {:?}", key.get_hex()); //print private key
             Ok(PrivateKey { key }) // transfer ownership out.
         }
     }
@@ -51,11 +47,12 @@ pub mod keys {
 #[cfg(test)]
 mod tests {
     use crate::keys::keys;
+    use primitive_types::U256;
     #[test]
     fn private_key_valid() {
         let private_key = keys::PrivateKey::new().unwrap();
         let key = private_key.key;
-        let zero_array: [u64;4] = [0u64; 4];
+        let zero_array: [u64; 4] = [0u64; 4];
         assert_ne!(key.0, zero_array);
     }
 }
