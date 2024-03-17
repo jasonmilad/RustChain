@@ -1,5 +1,6 @@
 pub mod keys {
-    use primitive_types::U256;
+
+    use bigint::uint::U256;
     use rand_core::{Error, OsRng, RngCore};
     use std::{thread, time};
 
@@ -47,7 +48,6 @@ pub mod keys {
 #[cfg(test)]
 mod tests {
     use crate::keys::keys;
-    use primitive_types::U256;
     #[test]
     fn private_key_valid() {
         let private_key = keys::PrivateKey::new().unwrap();
