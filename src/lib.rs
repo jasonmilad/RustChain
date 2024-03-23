@@ -1,5 +1,4 @@
 pub mod keys;
-pub mod secp256k1;
 // struct Block {
 //     block_size: u32,
 //     block_header: BlockHeader,
